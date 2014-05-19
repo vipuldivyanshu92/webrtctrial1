@@ -1,0 +1,104 @@
+<?php
+
+?><?php
+// AJAX CALLS THIS LOGIN CODE TO EXECUTE
+if(isset($_POST["e"])){
+	//	
+}
+?>
+<!DOCTYPE html>
+<!-- saved from url=(0014)about:internet -->
+<html>
+	
+	<head>
+	<meta charset="UTF-8" />
+	<title>THE SOCAIL WEB CALCULATOR</title>
+	<link rel="icon" href="images/logo.png" type="image/x-icon">
+    <script src="js/peer.js"></script>
+    <script src="js/peer.min.js"></script>
+    <style type="text/css">
+	#login_form{
+		margin-top:24px;
+	}
+	#login_form > div {
+		margin-top:12px;}
+	#login_form > input{
+		width:200px;
+		padding:3px;
+		background:#F3F9DD;}
+	</style>
+	</head>
+    
+	<body>
+    <script type="text/javascript">
+		var conn;
+		var peer = new Peer({key:'llz6zbwwhqlu9pb9'});
+		peer.on('open',function(id){
+		//						document.getElementById("pid").value(id);
+				$('#pid').text(id);
+			//	window.alert('id');
+								});
+		peer.on('open', function(id) {
+  console.log('My peer ID is: ' + id);
+});
+		peer.on('connection',connect);
+		
+		function connect(c){
+			$('#rid').val(conn.peer);
+			$('#rid').prop('disabled',ture);
+			//$('#progBar').width('100%');
+			conn.on('data',function(data){
+				$('#inputText').val($('#inputText').val()+data);
+			 });
+		}
+		window.onload(function(){
+				$('#connect').click(function(){
+				//$('#progBar').width('50%');	
+				var c= peer.connect($('#rid').val());
+				c.on('open',function(){
+									 connect(c);
+					});
+		});
+	
+		$('#inputText').keypress(function(e){
+			
+			var ev= e || window.event;
+			var asciiKey= ev.keyCode || ev.which;
+			text = String.fromCharCode(asciiKey);
+			conn.send(textKey);
+										  });
+										  
+		 });
+		keypressed(function(e){
+			
+			var ev= e || window.event;
+			var asciiKey= ev.keyCode || ev.which;
+			text = String.fromCharCode(asciiKey);
+			conn.send(textKey);
+										  });
+	</script>
+	<div id="pageMiddle">
+    <h3 style="padding-left:45%">THE SOCIAL CALCULATOR</h3>
+	&nbsp;
+    <!-- LOGIN FORM!-->
+    <div> <p> Your id :</p>
+    <span id="pid"></span><br><br>
+    <form id="login_form">
+    	<div>Enter Peer's id:</div> 
+        <input type="text" id="rid" maxlength="88">
+        <br/><br/>
+        <button id="connect" onClick="connect(this.id)">Connect</button><br><br>
+        
+      <p id="status"></p> 
+      <!-- Error Message or Success Message!-->
+        <a href ="#">Don't know your Ip?</a>
+      </form>
+       <!--LOGIN FORM!-->
+	</div>
+    <div>
+    <textarea id="inputText" onKeyPress="keypressed(this.id)" rows="30" style="
+    width:45%;
+    margin-left:20%;"></textarea>
+    </div>
+	</body>
+</html>
